@@ -1,0 +1,60 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    namespace 'com.khaledamin.marketplaceapp'
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.khaledamin.marketplaceapp"
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        dataBinding true
+    }
+}
+
+dependencies {
+
+    // Android Core-KTX
+    implementation "androidx.core:core-ktx:$core_ktx_version"
+    // Android support library for using action bar and other material designs implementation
+    // such as Toolbar for older device versions as android v2
+    implementation "androidx.appcompat:appcompat:$appCompat_version"
+    // Material designs dependency
+    implementation "com.google.android.material:material:$material_version"
+    // ConstraintLayout dependency
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    testImplementation "junit:junit:$test_junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$android_test_junit"
+    // Espresso testing dependency
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    // GifImageView for animated pictures
+    implementation "pl.droidsonroids.gif:android-gif-drawable:$gifImageView_version"
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+}

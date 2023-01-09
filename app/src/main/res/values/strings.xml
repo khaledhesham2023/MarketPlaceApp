@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MarketPlace App</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="guest_mode">Guest Mode</string>
+    <string name="not_have_an_account_create_new">Not have an account, create new ..?</string>
+</resources>

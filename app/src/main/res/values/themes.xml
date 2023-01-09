@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MarketPlaceApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/app_red</item>
+        <item name="colorPrimaryVariant">@color/app_dark_red</item>
+        <item name="colorOnPrimary">@color/app_orange</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/app_red</item>
+        <item name="colorSecondaryVariant">@color/app_dark_red</item>
+        <item name="colorOnSecondary">@color/app_orange</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.MarketPlaceApp.NoActionBar">
+        <item name="titleEnabled">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+        
+</resources>
