@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/categoryFragment">
+
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.khaledamin.marketplaceapp.ui.categories.CategoryFragment"
+        android:label="Categories"
+        tools:layout="@layout/fragment_category"/>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.khaledamin.marketplaceapp.ui.cart.CartFragment"
+        android:label="Cart"
+        tools:layout="@layout/fragment_cart" />
+    <fragment
+        android:id="@+id/moreFragment"
+        android:name="com.khaledamin.marketplaceapp.ui.more.MoreFragment"
+        android:label="More..."
+        tools:layout="@layout/fragment_more" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.khaledamin.marketplaceapp.ui.account.AccountFragment"
+        android:label="My Account"
+        tools:layout="@layout/fragment_account"/>
+
+</navigation>

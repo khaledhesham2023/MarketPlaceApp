@@ -24,4 +24,8 @@ ext {
     android_test_junit = '1.1.4'
     espresso_version = '3.5.0'
     gifImageView_version = '1.2.25'
+    retrofit_version = '2.9.0'
+    gson_version = '2.10.1'
+    gson_converter_version = '2.9.0'
+    nav_version = '2.5.3'
 }

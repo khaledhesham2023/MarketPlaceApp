@@ -6,6 +6,7 @@ import com.khaledamin.marketplaceapp.R
 import com.khaledamin.marketplaceapp.databinding.ActivitySplashBinding
 import com.khaledamin.marketplaceapp.ui.base.BaseActivity
 import com.khaledamin.marketplaceapp.ui.login.LoginActivity
+import com.khaledamin.marketplaceapp.ui.main.MainActivity
 import pl.droidsonroids.gif.GifDrawable
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>() {
@@ -16,6 +17,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         super.onResume()
         startSplash()
 
+
     }
 
     private fun startSplash() {
@@ -23,14 +25,19 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         android.os.Handler().postDelayed(Runnable {
             gifFromResources.loopCount = 3
 
-        },3000)
+        }, 3000)
         android.os.Handler().postDelayed(Runnable {
             viewDataBinding.splashWheel.visibility = View.VISIBLE
-        },4000)
+        }, 4000)
         android.os.Handler().postDelayed(Runnable {
             viewDataBinding.splashWheel.visibility = View.GONE
-            startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
-            finish()
+            if (sharedPrefRepo.isLoggedIn()) {
+                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                finish()
+            } else {
+                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                finish()
+            }
         }, 7000)
     }
 
