@@ -21,7 +21,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.khaledamin.marketplaceapp.R
 import com.khaledamin.marketplaceapp.databinding.ActivityMainBinding
 import com.khaledamin.marketplaceapp.ui.base.BaseActivity
-import com.khaledamin.marketplaceapp.ui.login.LoginActivity
+import com.khaledamin.marketplaceapp.ui.authentication.login.LoginActivity
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 

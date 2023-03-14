@@ -1,13 +1,15 @@
-package com.khaledamin.marketplaceapp.ui.login
+package com.khaledamin.marketplaceapp.ui.authentication.login
 
 import android.content.Intent
 import android.text.TextUtils
-import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.khaledamin.marketplaceapp.R
 import com.khaledamin.marketplaceapp.databinding.ActivityLoginBinding
+import com.khaledamin.marketplaceapp.ui.authentication.signup.SignupActivity
 import com.khaledamin.marketplaceapp.ui.base.BaseActivityWithViewModel
 import com.khaledamin.marketplaceapp.ui.main.MainActivity
+import com.khaledamin.marketplaceapp.utils.ViewState
 
 class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewModel>() {
     override val layout: Int
@@ -16,15 +18,27 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
         get() = LoginViewModel::class.java
 
 
-
     override fun setupObservers() {
         viewModel.loginLiveData.observe(this, Observer {
-            loadingDialog.dismiss()
-            sharedPrefRepo.saveUser(it)
-            sharedPrefRepo.setLoggedIn(true)
-            sharedPrefRepo.setBearerToken(it.extensionAttributes.token)
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-            finish()
+            when (it) {
+                is ViewState.Loading -> {
+                    loadingDialog.show()
+                }
+                is ViewState.Success -> {
+                    sharedPrefRepo.saveUser(it.data)
+                    sharedPrefRepo.setLoggedIn(true)
+                    sharedPrefRepo.setBearerToken(it.data!!.extensionAttributes.token)
+                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    loadingDialog.dismiss()
+                }
+                is ViewState.Error -> {
+                    Snackbar.make(this,
+                        viewDataBinding.root,
+                        it.message,
+                        Snackbar.LENGTH_LONG).show()
+                    loadingDialog.dismiss()
+                }
+            }
         })
     }
 
@@ -39,11 +53,12 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
                 )
             }
         }
-
-
+        viewDataBinding.createNew.setOnClickListener {
+            startActivity(Intent(this@LoginActivity, SignupActivity::class.java))
+        }
     }
 
-    fun isDataOk(): Boolean {
+    private fun isDataOk(): Boolean {
         var isDataOk = true
         if (TextUtils.isEmpty(viewDataBinding.mobileNumber.text.toString())) {
             isDataOk = false

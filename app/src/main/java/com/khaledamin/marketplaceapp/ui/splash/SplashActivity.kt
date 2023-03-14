@@ -5,7 +5,7 @@ import android.view.View
 import com.khaledamin.marketplaceapp.R
 import com.khaledamin.marketplaceapp.databinding.ActivitySplashBinding
 import com.khaledamin.marketplaceapp.ui.base.BaseActivity
-import com.khaledamin.marketplaceapp.ui.login.LoginActivity
+import com.khaledamin.marketplaceapp.ui.authentication.login.LoginActivity
 import com.khaledamin.marketplaceapp.ui.main.MainActivity
 import pl.droidsonroids.gif.GifDrawable
 

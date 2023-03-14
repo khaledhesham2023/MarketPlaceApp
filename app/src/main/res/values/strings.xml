@@ -12,4 +12,18 @@
     <string name="logout_confirm">Are you sure you want to log out ??</string>
     <string name="logout">Log Out</string>
     <string name="cancel">Cancel</string>
+    <string name="select_a_category">Select a Category</string>
+    <string name="categories">Categories</string>
+    <string name="signup">Sign Up</string>
+    <string name="customer_phone">Customer Phone</string>
+    <string name="firstname">First Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="email">E-mail</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="already_have_an_account_sign_in">Already have an account, Sign In?</string>
+    <string name="verification">Verification</string>
+    <string name="confirm_phone_number">Confirm Phone Number</string>
+    <string name="we_have_sent_verification_code_to_the_phone_number">We have sent verification code to the phone number</string>
+    <string name="verify">Verify</string>
 </resources>

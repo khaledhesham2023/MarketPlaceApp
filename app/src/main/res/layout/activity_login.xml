@@ -10,7 +10,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.login.LoginActivity">
+            tools:context=".ui.authentication.login.LoginActivity">
 
             <ImageView
                 android:id="@+id/app_image"
@@ -47,6 +47,7 @@
                 android:id="@+id/password_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:passwordToggleEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/mobile_number_layout"

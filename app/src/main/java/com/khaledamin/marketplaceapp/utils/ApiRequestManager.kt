@@ -12,25 +12,28 @@ import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class ApiRequestManager {
+class ApiRequestManager(private val context: Context) {
 
     fun <T> requestApi(
         request: Single<T>,
-        liveData: MutableLiveData<T>
+        liveData: MutableLiveData<ViewState<T>>,
     ) {
-        request.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
-            .subscribe(object : SingleObserver<T> {
-                override fun onSubscribe(d: Disposable) {
+        if (isInternetConnected(context)) {
+            liveData.value = ViewState.Loading
+            request.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .subscribe(object : SingleObserver<T> {
+                    override fun onSubscribe(d: Disposable) {
 //                TODO("Not yet implemented")
-                }
+                    }
 
-                override fun onSuccess(t: T) {
-                    liveData.value = t
-                }
+                    override fun onSuccess(t: T) {
+                        liveData.value = ViewState.Success(t,"Success")
+                    }
 
-                override fun onError(e: Throwable) {
-                    Log.e("TAGG", e.message.toString())
-                }
-            })
+                    override fun onError(e: Throwable) {
+                        liveData.value = ViewState.Error("Error")
+                    }
+                })
+        }
     }
 }
