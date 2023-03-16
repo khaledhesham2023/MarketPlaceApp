@@ -1,12 +1,15 @@
 package com.khaledamin.marketplaceapp.ui.base
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.khaledamin.marketplaceapp.datasource.remote.Repo.Repo
+import com.khaledamin.marketplaceapp.utils.ApiRequestManager
 
-open class BaseViewModel : ViewModel() {
+open class BaseViewModel(application: Application) : AndroidViewModel(application) {
 
-    init {
+    protected var apiRequestManager = ApiRequestManager(application.applicationContext)
 
-    }
+    protected var repo = Repo()
 
 
 }

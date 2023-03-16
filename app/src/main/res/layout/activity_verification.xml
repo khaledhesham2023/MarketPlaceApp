@@ -193,7 +193,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            tools:text="Resend code after ..."
+            android:text="@string/resendCode"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintWidth_percent="0.8"

@@ -32,5 +32,5 @@ data class SignupResponse(
     @SerializedName("extension_attributes")
     val extensionAttribute: ExtensionAttributes?,
     @SerializedName("custom_attributes")
-    val customAttributes: ArrayList<CustomAttribute>?
+    val customAttributes: ArrayList<CustomAttribute>?,
 )

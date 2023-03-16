@@ -31,7 +31,7 @@ class ApiRequestManager(private val context: Context) {
                     }
 
                     override fun onError(e: Throwable) {
-                        liveData.value = ViewState.Error("Error")
+                        liveData.value = ViewState.Error(e.message!!)
                     }
                 })
         }

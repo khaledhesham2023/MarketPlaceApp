@@ -26,4 +26,7 @@
     <string name="confirm_phone_number">Confirm Phone Number</string>
     <string name="we_have_sent_verification_code_to_the_phone_number">We have sent verification code to the phone number</string>
     <string name="verify">Verify</string>
+    <string name="resendCode">Resend Code</string>
+    <string name="resendCodeAfter">Resend Code after: %d</string>
+    <string name="zero">0%s</string>
 </resources>
