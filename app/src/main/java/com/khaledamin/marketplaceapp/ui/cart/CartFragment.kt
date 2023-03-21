@@ -15,4 +15,12 @@ class CartFragment : BaseFragmentWithViewModel<FragmentCartBinding,CartViewModel
     override val viewModelClass: Class<CartViewModel>
         get() = CartViewModel::class.java
 
+    override fun setupListeners() {
+//        TODO("Not yet implemented")
+    }
+
+    override fun setupObservers() {
+//        TODO("Not yet implemented")
+    }
+
 }

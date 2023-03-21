@@ -12,9 +12,10 @@
         tools:context=".ui.more.MoreFragment">
 
         <TextView
+            android:id="@+id/hello"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:text="more" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

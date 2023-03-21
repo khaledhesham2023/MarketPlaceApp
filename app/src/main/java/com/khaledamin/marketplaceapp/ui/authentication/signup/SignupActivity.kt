@@ -1,7 +1,8 @@
 package com.khaledamin.marketplaceapp.ui.authentication.signup
 
 import android.content.Intent
-import android.util.Log
+import android.os.Bundle
+import android.text.TextUtils
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.khaledamin.marketplaceapp.R
@@ -14,6 +15,7 @@ import com.khaledamin.marketplaceapp.ui.authentication.verification.Verification
 import com.khaledamin.marketplaceapp.ui.base.BaseActivityWithViewModel
 import com.khaledamin.marketplaceapp.utils.Constants
 import com.khaledamin.marketplaceapp.utils.ViewState
+import com.khaledamin.marketplaceapp.utils.removeErrorsWhenEditing
 
 class SignupActivity : BaseActivityWithViewModel<ActivitySignupBinding, SignupViewModel>() {
     override val layout: Int
@@ -21,9 +23,20 @@ class SignupActivity : BaseActivityWithViewModel<ActivitySignupBinding, SignupVi
     override val viewModelClass: Class<SignupViewModel>
         get() = SignupViewModel::class.java
 
-    private lateinit var number:String
-    private lateinit var numberEntry:String
+    private lateinit var number: String
+    private lateinit var numberEntry: String
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        removeErrorsWhenEditing(
+            viewDataBinding.customerFirstnameLayout,
+            viewDataBinding.customerPhoneLayout,
+            viewDataBinding.customerLastnameLayout,
+            viewDataBinding.customerEmailLayout,
+            viewDataBinding.customerPasswordLayout,
+            viewDataBinding.customerConfirmPasswordLayout
+        )
+    }
 
     override fun setupObservers() {
         viewModel.signupLiveData.observe(this@SignupActivity, Observer {
@@ -31,8 +44,12 @@ class SignupActivity : BaseActivityWithViewModel<ActivitySignupBinding, SignupVi
                 is ViewState.Loading -> loadingDialog.show()
                 is ViewState.Success -> {
                     val intent = Intent(this@SignupActivity, VerificationActivity::class.java)
-                    intent.putExtra(Constants.PHONE_NUMBER,numberEntry)
-                    intent.putExtra(Constants.SMS_MESSAGE,it.data!!.extensionAttribute!!.smsId)
+//                    intent.putExtra(Constants.PHONE_NUMBER, numberEntry)
+                    if (viewDataBinding.customerPhone.text.toString().startsWith("0")){
+                    sharedPrefRepo.savePhoneNumber(viewDataBinding.customerPhone.text.toString().trim('0'))
+                    } else {
+                        sharedPrefRepo.savePhoneNumber(viewDataBinding.customerPhone.text.toString())
+                    }
                     startActivity(intent)
                     finish()
                     loadingDialog.dismiss()
@@ -47,13 +64,8 @@ class SignupActivity : BaseActivityWithViewModel<ActivitySignupBinding, SignupVi
 
     override fun setupListeners() {
         viewDataBinding.createNewButton.setOnClickListener {
-            number = viewDataBinding.customerPhone.text.toString()
-            if (number.length > 11 || number.length < 11) {
-                Snackbar.make(this,
-                    viewDataBinding.root,
-                    "Phone number shouldn't be more or less than 11 numbers",
-                    Snackbar.LENGTH_LONG).show()
-            } else {
+            if (isDataOk()) {
+                number = viewDataBinding.customerPhone.text.toString()
                 numberEntry = number.trim('0')
                 val request = SignupRequest(Customer(arrayListOf(
                     CustomAttribute("customer_mobile", numberEntry),
@@ -75,5 +87,48 @@ class SignupActivity : BaseActivityWithViewModel<ActivitySignupBinding, SignupVi
             startActivity(Intent(this@SignupActivity, LoginActivity::class.java))
             finish()
         }
+    }
+
+    private fun isDataOk(): Boolean {
+        var isDataOk = true
+        if (TextUtils.isEmpty(viewDataBinding.customerFirstname.text.toString())) {
+            isDataOk = false
+            viewDataBinding.customerFirstnameLayout.error = getString(R.string.firstname_error)
+        }
+        if (TextUtils.isEmpty(viewDataBinding.customerLastname.text.toString())) {
+            isDataOk = false
+            viewDataBinding.customerLastnameLayout.error = getString(R.string.lastname_error)
+        }
+        if (viewDataBinding.customerEmail.text.toString()
+                .isNotEmpty() && (!viewDataBinding.customerEmail.text.toString()
+                .contains("@") && !viewDataBinding.customerEmail.text.toString().contains(".com"))
+        ) {
+            isDataOk = false
+            viewDataBinding.customerEmailLayout.error = getString(R.string.email_error)
+        }
+        if (viewDataBinding.customerPhone.text.toString().length < 11 || viewDataBinding.customerPhone.text.toString().length > 11) {
+            isDataOk = false
+            viewDataBinding.customerPhoneLayout.error = getString(R.string.error_mobile_phone_length)
+        }
+        if (TextUtils.isEmpty(viewDataBinding.customerPhone.text.toString())){
+            viewDataBinding.customerPhoneLayout.error = getString(R.string.error_mobile_phone)
+        }
+        if (TextUtils.isEmpty(viewDataBinding.customerPassword.text.toString())) {
+            isDataOk = false
+            viewDataBinding.customerPasswordLayout.error = getString(R.string.password_error)
+        }
+        if (TextUtils.isEmpty(viewDataBinding.customerConfirmPassword.text.toString())) {
+            isDataOk = false
+            viewDataBinding.customerConfirmPasswordLayout.error =
+                getString(R.string.confirm_password_error)
+        }
+        if (viewDataBinding.customerPassword.text.toString() != viewDataBinding.customerConfirmPassword.text.toString()) {
+            isDataOk = false
+            Snackbar.make(this,
+                viewDataBinding.root,
+                getString(R.string.error_password_mismatch),
+                Snackbar.LENGTH_LONG).show()
+        }
+        return isDataOk
     }
 }

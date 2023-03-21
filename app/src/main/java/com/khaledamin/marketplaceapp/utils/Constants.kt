@@ -10,6 +10,9 @@ object Constants {
     const val CHANNEL_ID = "CHANNEL_ID"
     const val CHANNEL_NAME = "Verification"
     const val NOTIFICATION_ID = 20
+    const val CATEGORY_NAME = "Category name"
+    const val PHONE_NUMBER_ENTRY = "PHONE_NUMBER"
+
 
 
 }

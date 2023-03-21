@@ -1,6 +1,7 @@
 package com.khaledamin.marketplaceapp.ui.base
 
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -16,4 +17,14 @@ abstract class BaseFragmentWithViewModel<VB : ViewDataBinding, VM : ViewModel> :
 
         viewModel = ViewModelProvider(this)[viewModelClass]
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupObservers()
+        setupListeners()
+    }
+
+    abstract fun setupListeners()
+
+    abstract fun setupObservers()
 }

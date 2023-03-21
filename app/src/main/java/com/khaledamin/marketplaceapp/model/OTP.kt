@@ -10,5 +10,5 @@ data class OTP(
     @SerializedName("phone_code")
     val phoneCode:String?,
     @SerializedName("sms_id")
-    val smsId:String?
+    val smsId:Long?
 )

@@ -1,27 +1,16 @@
 package com.khaledamin.marketplaceapp.ui.main
 
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.khaledamin.marketplaceapp.R
 import com.khaledamin.marketplaceapp.databinding.ActivityMainBinding
 import com.khaledamin.marketplaceapp.ui.base.BaseActivity
-import com.khaledamin.marketplaceapp.ui.authentication.login.LoginActivity
+import com.khaledamin.marketplaceapp.ui.notifications.NotificationsActivity
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
@@ -44,46 +33,38 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             R.id.moreFragment
         ).build()
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        setSupportActionBar(viewDataBinding.toolbar)
+
+        this.title = ""
+
+        viewDataBinding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
         viewDataBinding.bottomNavigationView.setupWithNavController(navController)
 
-    }
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.cartFragment -> {
+                    viewDataBinding.toolbarTitle.text = getString(R.string.cart)
+                }
+                R.id.categoryFragment -> {
+                    viewDataBinding.toolbarTitle.text = getString(R.string.categories)
+                }
+                R.id.accountFragment -> {
+                    viewDataBinding.toolbarTitle.text = getString(R.string.account)
+                }
+                R.id.moreFragment -> {
+                    viewDataBinding.toolbarTitle.text = getString(R.string.more)
+                }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() || super.onSupportNavigateUp()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.settings_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.logout -> {
-                logout()
             }
         }
-        return super.onOptionsItemSelected(item)
+
+        viewDataBinding.notificationIcon.setOnClickListener {
+            startActivity(Intent(this@MainActivity, NotificationsActivity::class.java))
+        }
+
     }
-
-    private fun logout() {
-        val alertDialogBuilder = AlertDialog.Builder(this).setMessage(R.string.logout_confirm)
-            .setPositiveButton(R.string.logout, object : DialogInterface.OnClickListener {
-                override fun onClick(p0: DialogInterface?, p1: Int) {
-                    sharedPrefRepo.setLoggedIn(false)
-                    sharedPrefRepo.saveUser(null)
-                    sharedPrefRepo.setBearerToken(null)
-                    startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-                    finish()
-                }
-            }).setNegativeButton(R.string.cancel, object : DialogInterface.OnClickListener {
-                override fun onClick(p0: DialogInterface?, p1: Int) {
-
-                }
-            })
-        alertDialogBuilder.create().show()
-
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

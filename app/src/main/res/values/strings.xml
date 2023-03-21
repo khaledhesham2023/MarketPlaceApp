@@ -18,7 +18,7 @@
     <string name="customer_phone">Customer Phone</string>
     <string name="firstname">First Name</string>
     <string name="lastname">Last Name</string>
-    <string name="email">E-mail</string>
+    <string name="email">E-mail (Optional)</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="create_new_account">Create new account</string>
     <string name="already_have_an_account_sign_in">Already have an account, Sign In?</string>
@@ -29,4 +29,26 @@
     <string name="resendCode">Resend Code</string>
     <string name="resendCodeAfter">Resend Code after: %d</string>
     <string name="zero">0%s</string>
+    <string name="cart">Cart</string>
+    <string name="account">My Account</string>
+    <string name="more">More…</string>
+    <string name="sign_out">Sign out</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="confirm_logout">Are you sure you want to logout?</string>
+    <string name="notifications">Notifications</string>
+    <string name="firstname_error">Firest name is required</string>
+    <string name="lastname_error">Lastname is required</string>
+    <string name="password_error">Password is required</string>
+    <string name="confirm_password_error">Password confirmation is required</string>
+    <string name="email_error">Error in E-mail entry</string>
+    <string name="error_password_mismatch">Password mismatch</string>
+    <string name="verify_customer_error">\"Error during verifying customer\"</string>
+    <string name="user_created_successfully">User created successfully</string>
+    <string name="error_mobile_phone_length">Mobile phone number shouldn\'t be more or less than 11 numbers</string>
+    <string name="verification_code">Verification code</string>
+    <string name="verification_code_error">Error during verifying code</string>
+    <string name="network_connection_error">Something went wrong,Check your network connection and try again</string>
+    <string name="error_loading_categories">Error during loading categoies, Try again.. ?</string>
+    <string name="no_categories_available">No categories are currently available</string>
+    <string name="retry">Retry</string>
 </resources>

@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
@@ -38,8 +39,8 @@ class VerificationActivity :
     private var resendTime = 60
     private var selectedPosition = 0
     private lateinit var numberEntry: String
-    private lateinit var smsMessage: String
-    private lateinit var otpCode:String
+    private var smsMessage: Long = 0
+    private lateinit var otpCode: String
 
     private val textWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -79,14 +80,13 @@ class VerificationActivity :
         super.onCreate(savedInstanceState)
 
         val intentSignup: Intent = intent
-        numberEntry = intentSignup.getStringExtra(Constants.PHONE_NUMBER).toString()
-        smsMessage = intentSignup.getStringExtra(Constants.SMS_MESSAGE).toString()
+        numberEntry = sharedPrefRepo.getPhoneNumber()!!
 
         viewDataBinding.firstNumber.addTextChangedListener(textWatcher)
         viewDataBinding.secondNumber.addTextChangedListener(textWatcher)
         viewDataBinding.thirdNumber.addTextChangedListener(textWatcher)
         viewDataBinding.fourthNumber.addTextChangedListener(textWatcher)
-        viewDataBinding.customerPhone.text = getString(R.string.zero, numberEntry)
+        viewDataBinding.customerPhone.text = getString(R.string.zero,sharedPrefRepo.getPhoneNumber())
 
 
         showKeyboard(viewDataBinding.firstNumber)
@@ -102,8 +102,12 @@ class VerificationActivity :
             when (it) {
                 is ViewState.Loading -> loadingDialog.show()
                 is ViewState.Success -> {
-                    createNotification(it.data!!.code.toString(), this.application, numberEntry)
+                    createNotification(it.data!!.code.toString(),
+                        this.application,
+                        VerificationActivity::class.java,
+                        getString(R.string.verification_code))
                     otpCode = it.data.code.toString()
+                    smsMessage = it.data.entityId!!
                     loadingDialog.dismiss()
                 }
                 is ViewState.Error -> {
@@ -123,7 +127,7 @@ class VerificationActivity :
                     loadingDialog.dismiss()
                 }
                 is ViewState.Error -> {
-                    Snackbar.make(this,viewDataBinding.root,"Error during verifying code",Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(this,viewDataBinding.root,getString(R.string.verification_code_error),Snackbar.LENGTH_LONG).show()
                     loadingDialog.dismiss()
                 }
             }
@@ -134,11 +138,17 @@ class VerificationActivity :
                 is ViewState.Loading -> loadingDialog.show()
                 is ViewState.Success -> {
                     loadingDialog.dismiss()
+                    Toast.makeText(this,
+                        getText(R.string.user_created_successfully),
+                        Toast.LENGTH_LONG).show()
                     startActivity(Intent(this@VerificationActivity,LoginActivity::class.java))
                     finish()
                 }
                 is ViewState.Error -> {
-                    Snackbar.make(this,viewDataBinding.root,"Error during verifying customer",Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(this,
+                        viewDataBinding.root,
+                        getString(R.string.verify_customer_error),
+                        Snackbar.LENGTH_LONG).show()
                     loadingDialog.dismiss()
                 }
             }

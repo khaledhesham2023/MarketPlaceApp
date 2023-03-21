@@ -8,22 +8,27 @@
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.khaledamin.marketplaceapp.ui.categories.CategoryFragment"
-        android:label="Categories"
-        tools:layout="@layout/fragment_category"/>
+        tools:layout="@layout/fragment_category">
+        <action
+            android:id="@+id/action_categoryFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.khaledamin.marketplaceapp.ui.cart.CartFragment"
-        android:label="Cart"
         tools:layout="@layout/fragment_cart" />
     <fragment
         android:id="@+id/moreFragment"
         android:name="com.khaledamin.marketplaceapp.ui.more.MoreFragment"
-        android:label="More..."
         tools:layout="@layout/fragment_more" />
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.khaledamin.marketplaceapp.ui.account.AccountFragment"
-        android:label="My Account"
         tools:layout="@layout/fragment_account"/>
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.khaledamin.marketplaceapp.ui.notifications.NotificationsFragment"
+        android:label="NotificationsFragment"
+        tools:layout="@layout/fragment_notifications"/>
 
 </navigation>

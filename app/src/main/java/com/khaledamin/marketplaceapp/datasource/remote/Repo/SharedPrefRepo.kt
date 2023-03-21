@@ -25,5 +25,11 @@ class SharedPrefRepo(private val context: Context) {
 
     fun getBearerToken():String? = sharedPreferences.getString(Constants.BEARER_TOKEN,"")
 
+    fun savePhoneNumber(phoneEntry:String?) = sharedPreferences.edit().putString(Constants.PHONE_NUMBER_ENTRY,phoneEntry).apply()
+
+    fun getPhoneNumber():String? = sharedPreferences.getString(Constants.PHONE_NUMBER,"")
+
+
+
 
 }

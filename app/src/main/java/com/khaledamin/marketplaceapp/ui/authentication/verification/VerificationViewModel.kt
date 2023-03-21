@@ -20,16 +20,16 @@ class VerificationViewModel(application: Application) : BaseViewModel(applicatio
     var verifyCustomerLiveData = MutableLiveData<ViewState<VerifyResponse>>()
 
 
-    fun sendOTP(request: SendOTPRequest) = viewModelScope.launch {
+    fun sendOTP(request: SendOTPRequest) =
         apiRequestManager.requestApi(repo.sendOTP(request), sendOTPLiveData)
-    }
 
-    fun verifyCode(request: VerifyRequest) = viewModelScope.launch {
+
+    fun verifyCode(request: VerifyRequest) =
         apiRequestManager.requestApi(repo.verifyCode(request), verifyCodeLiveData)
-    }
 
-    fun verifyCustomer(request: VerifyRequest) = viewModelScope.launch {
+
+    fun verifyCustomer(request: VerifyRequest) =
         apiRequestManager.requestApi(repo.verifyCustomer(request), verifyCustomerLiveData)
-    }
+
 }
 

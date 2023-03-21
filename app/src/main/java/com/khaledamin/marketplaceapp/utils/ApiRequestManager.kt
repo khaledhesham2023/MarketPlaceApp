@@ -6,6 +6,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.snackbar.Snackbar
+import com.khaledamin.marketplaceapp.R
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleObserver
@@ -34,6 +35,8 @@ class ApiRequestManager(private val context: Context) {
                         liveData.value = ViewState.Error(e.message!!)
                     }
                 })
+        } else {
+            liveData.value = ViewState.Error(context.getString(R.string.network_connection_error))
         }
     }
 }

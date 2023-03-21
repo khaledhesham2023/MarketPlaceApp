@@ -21,6 +21,7 @@ abstract class BaseFragment<VB : ViewDataBinding> : Fragment() {
 
     protected lateinit var sharedPrefRepo: SharedPrefRepo
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

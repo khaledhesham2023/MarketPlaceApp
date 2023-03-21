@@ -1,6 +1,7 @@
 package com.khaledamin.marketplaceapp.ui.authentication.login
 
 import android.content.Intent
+import android.os.Bundle
 import android.text.TextUtils
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
@@ -10,6 +11,7 @@ import com.khaledamin.marketplaceapp.ui.authentication.signup.SignupActivity
 import com.khaledamin.marketplaceapp.ui.base.BaseActivityWithViewModel
 import com.khaledamin.marketplaceapp.ui.main.MainActivity
 import com.khaledamin.marketplaceapp.utils.ViewState
+import com.khaledamin.marketplaceapp.utils.removeErrorsWhenEditing
 
 class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewModel>() {
     override val layout: Int
@@ -17,6 +19,10 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
     override val viewModelClass: Class<LoginViewModel>
         get() = LoginViewModel::class.java
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        removeErrorsWhenEditing(viewDataBinding.mobileNumberLayout,viewDataBinding.passwordLayout)
+    }
 
     override fun setupObservers() {
         viewModel.loginLiveData.observe(this, Observer {
@@ -29,6 +35,7 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
                     sharedPrefRepo.setLoggedIn(true)
                     sharedPrefRepo.setBearerToken(it.data!!.extensionAttributes.token)
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                    finish()
                     loadingDialog.dismiss()
                 }
                 is ViewState.Error -> {
@@ -48,19 +55,24 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
                 loadingDialog.show()
                 viewModel.login(
                     "test",
-                    viewDataBinding.mobileNumber.text.toString(),
+                    viewDataBinding.mobileNumber.text.toString().trim('0'),
                     viewDataBinding.password.text.toString()
                 )
             }
         }
         viewDataBinding.createNew.setOnClickListener {
             startActivity(Intent(this@LoginActivity, SignupActivity::class.java))
+            finish()
         }
     }
 
     private fun isDataOk(): Boolean {
         var isDataOk = true
         if (TextUtils.isEmpty(viewDataBinding.mobileNumber.text.toString())) {
+            isDataOk = false
+            viewDataBinding.mobileNumberLayout.error = getString(R.string.error_mobile_phone)
+        }
+        if(viewDataBinding.mobileNumber.text.toString().length > 11 || viewDataBinding.mobileNumber.text.toString().length < 11){
             isDataOk = false
             viewDataBinding.mobileNumberLayout.error = getString(R.string.error_mobile_phone)
         }
