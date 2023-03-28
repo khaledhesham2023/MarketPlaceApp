@@ -7,28 +7,98 @@
 
     <fragment
         android:id="@+id/categoryFragment"
+        android:label="@string/categories"
         android:name="com.khaledamin.marketplaceapp.ui.categories.CategoryFragment"
         tools:layout="@layout/fragment_category">
         <action
-            android:id="@+id/action_categoryFragment_to_notificationsFragment"
-            app:destination="@id/notificationsFragment" />
+            android:id="@+id/action_categoryFragment_to_categoryProductsFragment"
+            app:destination="@id/categoryProductsFragment" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
+        android:label="@string/cart"
         android:name="com.khaledamin.marketplaceapp.ui.cart.CartFragment"
         tools:layout="@layout/fragment_cart" />
     <fragment
         android:id="@+id/moreFragment"
+        android:label="@string/more"
         android:name="com.khaledamin.marketplaceapp.ui.more.MoreFragment"
         tools:layout="@layout/fragment_more" />
     <fragment
         android:id="@+id/accountFragment"
+        android:label="@string/account"
         android:name="com.khaledamin.marketplaceapp.ui.account.AccountFragment"
-        tools:layout="@layout/fragment_account"/>
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_accountFragment_to_ordersFragment"
+            app:destination="@id/ordersFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_editAccountFragment"
+            app:destination="@id/editAccountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryProductsFragment"
+        android:name="com.khaledamin.marketplaceapp.ui.categoryproducts.CategoryProductsFragment"
+        android:label="CategoryProductsFragment"
+        tools:layout="@layout/fragment_category_products">
+        <argument
+            android:name="dataElement"
+            app:argType="com.khaledamin.marketplaceapp.model.DataElement"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_categoryProductsFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
         android:name="com.khaledamin.marketplaceapp.ui.notifications.NotificationsFragment"
-        android:label="NotificationsFragment"
-        tools:layout="@layout/fragment_notifications"/>
+        android:label="@string/notifications"
+        tools:layout="@layout/fragment_notifications" />
+    <action
+        android:id="@+id/action_global_notificationsFragment"
+        app:destination="@id/notificationsFragment" />
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.khaledamin.marketplaceapp.ui.filter.FilterFragment"
+        android:label="@string/filter"
+        tools:layout="@layout/fragment_filter" />
+    <action
+        android:id="@+id/action_global_filterFragment"
+        app:destination="@id/filterFragment" />
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.khaledamin.marketplaceapp.ui.productdetails.ProductDetailsFragment"
+        android:label="@string/product_details"
+        tools:layout="@layout/fragment_product_details">
+        <argument
+            android:name="sku"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.khaledamin.marketplaceapp.ui.orderslist.OrdersFragment"
+        android:label="@string/my_orders"
+        tools:layout="@layout/fragment_orders">
+        <action
+            android:id="@+id/action_ordersFragment_to_orderDetailsFragment"
+            app:destination="@id/orderDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailsFragment"
+        android:name="com.khaledamin.marketplaceapp.ui.orderdetails.OrderDetailsFragment"
+        android:label="@string/order_details"
+        tools:layout="@layout/fragment_order_details">
+        <argument
+            android:name="order"
+            app:argType="com.khaledamin.marketplaceapp.model.responses.Order"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/editAccountFragment"
+        android:name="com.khaledamin.marketplaceapp.ui.editaccount.EditAccountFragment"
+        android:label="@string/edit_profile"
+        tools:layout="@layout/fragment_edit_account"/>
+
 
 </navigation>

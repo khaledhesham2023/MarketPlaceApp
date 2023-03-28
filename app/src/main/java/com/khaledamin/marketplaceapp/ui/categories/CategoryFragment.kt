@@ -1,17 +1,16 @@
 package com.khaledamin.marketplaceapp.ui.categories
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.denzcoskun.imageslider.constants.ScaleTypes
+import com.denzcoskun.imageslider.models.SlideModel
 import com.khaledamin.marketplaceapp.R
 import com.khaledamin.marketplaceapp.databinding.FragmentCategoryBinding
 import com.khaledamin.marketplaceapp.model.DataElement
-import com.khaledamin.marketplaceapp.model.responses.GetCategoriesResponse
 import com.khaledamin.marketplaceapp.ui.base.BaseFragmentWithViewModel
-import com.khaledamin.marketplaceapp.ui.categoryproducts.CategoryProductsActivity
-import com.khaledamin.marketplaceapp.utils.Constants
 import com.khaledamin.marketplaceapp.utils.ViewState
 
 class CategoryFragment : BaseFragmentWithViewModel<FragmentCategoryBinding, CategoryViewModel>(),
@@ -49,15 +48,25 @@ class CategoryFragment : BaseFragmentWithViewModel<FragmentCategoryBinding, Cate
             when (it) {
                 is ViewState.Loading -> loadingDialog.show()
                 is ViewState.Success -> {
-                    if (it.data!![1].dataElements!!.isEmpty()) {
-                        viewDataBinding.emptyView.visibility= View.VISIBLE
+                    if (it.data!![0].dataElements!!.isEmpty()) {
+                        viewDataBinding.emptySliderText.visibility = View.VISIBLE
+                    } else {
+                        viewDataBinding.emptySliderText.visibility = View.GONE
+                        val list = arrayListOf<SlideModel>()
+                        for (slide in it.data[0].dataElements!!){
+                            list.add(SlideModel(slide.categoryThumbnail,slide.name,ScaleTypes.FIT))
+                        }
+                        viewDataBinding.sliderView.setImageList(list.toList())
+                    }
+                    if (it.data[1].dataElements!!.isEmpty()) {
+                        viewDataBinding.emptyView.visibility = View.VISIBLE
                         viewDataBinding.emptyViewMessage.text =
                             getText(R.string.no_categories_available)
-                        viewDataBinding.view.visibility = View.GONE
+                        viewDataBinding.sliderView.visibility = View.GONE
                         viewDataBinding.categoriesList.visibility = View.GONE
                     } else {
                         viewDataBinding.emptyView.visibility = View.GONE
-                        viewDataBinding.view.visibility = View.VISIBLE
+                        viewDataBinding.sliderView.visibility = View.VISIBLE
                         viewDataBinding.categoriesList.visibility = View.VISIBLE
                         categoryAdapter.updateDataSet(it.data[1].dataElements!!)
                     }
@@ -66,7 +75,7 @@ class CategoryFragment : BaseFragmentWithViewModel<FragmentCategoryBinding, Cate
                 }
                 is ViewState.Error -> {
                     viewDataBinding.emptyView.visibility = View.VISIBLE
-                    viewDataBinding.view.visibility = View.GONE
+                    viewDataBinding.sliderView.visibility = View.GONE
                     viewDataBinding.categoriesList.visibility = View.GONE
                     viewDataBinding.emptyViewMessage.text =
                         getText(R.string.error_loading_categories)
@@ -76,11 +85,10 @@ class CategoryFragment : BaseFragmentWithViewModel<FragmentCategoryBinding, Cate
         })
     }
 
+    override fun onCategoryClicked(category: DataElement?) {
+        findNavController().navigate(CategoryFragmentDirections.actionCategoryFragmentToCategoryProductsFragment(
+            category))
 
-    override fun onCategoryClicked(category: DataElement) {
-        val intent = Intent(requireActivity(), CategoryProductsActivity::class.java)
-        intent.putExtra(Constants.CATEGORY_NAME, category.name)
-        startActivity(intent)
     }
 
 }

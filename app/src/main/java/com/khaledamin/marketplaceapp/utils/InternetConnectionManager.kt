@@ -4,9 +4,9 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import com.khaledamin.marketplaceapp.datasource.remote.Repo.SharedPrefRepo
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 
 fun isInternetConnected(context: Context): Boolean {
     val connectivityManager =
@@ -27,11 +27,21 @@ fun isInternetConnected(context: Context): Boolean {
     }
 }
 
-fun makeHTTP(): OkHttpClient {
-    val okHttpClient = OkHttpClient.Builder().addInterceptor(object : Interceptor {
-        override fun intercept(chain: Interceptor.Chain): Response {
-            return chain.proceed(chain.request())
+fun makeHTTP(sharedPrefRepo: SharedPrefRepo): OkHttpClient {
+    val okHttpClient = OkHttpClient.Builder().addInterceptor(Interceptor {
+        val request = it.request()
+        val url = request.url().toString()
+        if (url.endsWith("customers/me/password") || url.endsWith("mage/notification/history") || url.contains(
+                "V1/mage/orders/mine/previous") || url.contains("V1/mage/orders/mine/current") || url.contains("V1/customers/me")
+        ) {
+            val newRequest = request.newBuilder()
+                .addHeader("Authorization", "Bearer ${sharedPrefRepo.getBearerToken()}").build()
+            it.proceed(newRequest)
+        } else {
+            it.proceed(request)
         }
     }).build()
+
     return okHttpClient
+
 }

@@ -29,6 +29,10 @@ class SharedPrefRepo(private val context: Context) {
 
     fun getPhoneNumber():String? = sharedPreferences.getString(Constants.PHONE_NUMBER,"")
 
+    fun savePassword(password:String) = sharedPreferences.edit().putString(Constants.USER_PASSWORD,password).apply()
+
+    fun getPassword():String? = sharedPreferences.getString(Constants.USER_PASSWORD,"")
+
 
 
 

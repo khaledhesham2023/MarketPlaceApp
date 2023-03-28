@@ -6,5 +6,5 @@ import com.khaledamin.marketplaceapp.model.responses.GetCategoriesResponse
 
 interface CategoryCallback {
 
-    fun onCategoryClicked(category:DataElement)
+    fun onCategoryClicked(category:DataElement?)
 }

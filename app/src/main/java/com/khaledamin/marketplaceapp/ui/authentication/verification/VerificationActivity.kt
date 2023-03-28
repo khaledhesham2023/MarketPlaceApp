@@ -224,4 +224,8 @@ class VerificationActivity :
 
         }
     }
+
+    override fun initializeComponents() {
+
+    }
 }

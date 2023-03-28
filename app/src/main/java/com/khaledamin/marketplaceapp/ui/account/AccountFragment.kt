@@ -2,44 +2,48 @@ package com.khaledamin.marketplaceapp.ui.account
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.khaledamin.marketplaceapp.R
 import com.khaledamin.marketplaceapp.databinding.FragmentAccountBinding
 import com.khaledamin.marketplaceapp.ui.authentication.login.LoginActivity
-import com.khaledamin.marketplaceapp.ui.base.BaseFragmentWithViewModel
+import com.khaledamin.marketplaceapp.ui.base.BaseFragment
 import com.khaledamin.marketplaceapp.utils.showConfirmationDialog
 
 
-class AccountFragment : BaseFragmentWithViewModel<FragmentAccountBinding,AccountViewModel>() {
+class AccountFragment : BaseFragment<FragmentAccountBinding>() {
     override val layout: Int
         get() = R.layout.fragment_account
-    override val viewModelClass: Class<AccountViewModel>
-        get() = AccountViewModel::class.java
 
+    override fun onResume() {
+        super.onResume()
+        viewDataBinding.name.text =
+            "${sharedPrefRepo.getUser().firstName} ${sharedPrefRepo.getUser().lastName}"
+        viewDataBinding.email.text = sharedPrefRepo.getUser().email
+    }
 
     override fun setupListeners() {
-        viewDataBinding.signout.setOnClickListener {
-        logout()
-    }
+        viewDataBinding.logoutLayout.setOnClickListener {
+            logout()
+        }
+        viewDataBinding.ordersGroup.setOnClickListener {
+            findNavController().navigate(AccountFragmentDirections.actionAccountFragmentToOrdersFragment())
+        }
+        viewDataBinding.settingsGroup.setOnClickListener {
+            findNavController().navigate(AccountFragmentDirections.actionAccountFragmentToEditAccountFragment())
+        }
     }
 
-    override fun setupObservers() {
-//        TODO("Not yet implemented")
-    }
     private fun logout(){
-        showConfirmationDialog(requireContext(),R.string.confirmation,R.string.confirm_logout,R.string.logout,R.string.cancel){
-            _,_ ->
+        showConfirmationDialog(requireContext(),R.string.confirmation,R.string.confirm_logout,R.string.logout,R.string.cancel) { _, _ ->
             sharedPrefRepo.setBearerToken(null)
             sharedPrefRepo.setLoggedIn(false)
             sharedPrefRepo.saveUser(null)
-            startActivity(Intent(requireActivity(),LoginActivity::class.java))
+            startActivity(Intent(requireActivity(), LoginActivity::class.java))
             requireActivity().finish()
         }
+    }
         }
 
-    }
 
 

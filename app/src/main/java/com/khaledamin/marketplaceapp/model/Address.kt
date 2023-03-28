@@ -25,6 +25,10 @@ data class Address(
     val firstName: String? = null,
     @SerializedName("lastname")
     val lastName: String? = null,
+    @SerializedName("default_shipping")
+    val defaultShipping:Boolean? = null,
+    @SerializedName("default_billing")
+    val defaultBilling:Boolean? = null,
     @SerializedName("custom_attributes")
-    val customAttributes: List<CustomAttribute>
+    val customAttributes: List<CustomAttribute>? = null
 )

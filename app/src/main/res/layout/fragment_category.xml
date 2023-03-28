@@ -16,15 +16,46 @@
             android:layout_height="match_parent"
             tools:context=".ui.categories.CategoryFragment">
 
-            <View
-                android:id="@+id/view"
+            <com.denzcoskun.imageslider.ImageSlider
+                android:id="@+id/slider_view"
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
-                android:visibility="visible"
                 android:background="@color/app_red"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:iss_auto_cycle="true"
+                app:iss_period="2000"
+                app:iss_delay="0"
+                app:iss_title_background="@color/app_red"
+                app:iss_placeholder="@drawable/marketplacelogo2"
+                app:iss_selected_dot="@drawable/default_selected_dot"
+                app:iss_unselected_dot="@drawable/default_unselected_dot"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/empty_slider_text"
+                app:layout_constraintStart_toStartOf="@id/slider_view"
+                app:layout_constraintEnd_toEndOf="@id/slider_view"
+                app:layout_constraintTop_toTopOf="@id/slider_view"
+                app:layout_constraintBottom_toBottomOf="@id/slider_view"
+                android:text="@string/not_available_sliders"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:textStyle="bold"
+                android:textSize="30sp"/>
+
+<!--            <View-->
+<!--                android:id="@+id/view"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="170dp"-->
+<!--                android:visibility="visible"-->
+<!--                android:background="@color/app_red"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/categories_list"
@@ -33,7 +64,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/view" />
+                app:layout_constraintTop_toBottomOf="@id/slider_view" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/empty_view"

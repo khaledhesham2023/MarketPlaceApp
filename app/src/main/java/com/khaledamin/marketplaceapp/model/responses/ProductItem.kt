@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.khaledamin.marketplaceapp.model.CustomAttribute
 import com.khaledamin.marketplaceapp.model.MediaGalleryEntry
 import com.khaledamin.marketplaceapp.model.ProductAttributes
+import java.io.Serializable
 
 data class ProductItem(
     @SerializedName("id")
@@ -40,4 +41,4 @@ data class ProductItem(
     val tierPrices:ArrayList<String>?,
     @SerializedName("custom_attributes")
     val customAttributes: ArrayList<CustomAttribute>?
-)
+): Serializable

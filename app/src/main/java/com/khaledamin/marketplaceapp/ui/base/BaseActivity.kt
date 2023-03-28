@@ -19,5 +19,9 @@ abstract class BaseActivity<T: ViewDataBinding> : AppCompatActivity() {
 
         viewDataBinding = DataBindingUtil.setContentView(this,layout)
         sharedPrefRepo = SharedPrefRepo(this)
+        initializeComponents()
     }
+
+    abstract fun initializeComponents()
 }
+

@@ -1,12 +1,13 @@
 package com.khaledamin.marketplaceapp.ui.authentication.login
 
 import android.content.Intent
-import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.khaledamin.marketplaceapp.R
 import com.khaledamin.marketplaceapp.databinding.ActivityLoginBinding
+import com.khaledamin.marketplaceapp.ui.authentication.password.PasswordActivity
 import com.khaledamin.marketplaceapp.ui.authentication.signup.SignupActivity
 import com.khaledamin.marketplaceapp.ui.base.BaseActivityWithViewModel
 import com.khaledamin.marketplaceapp.ui.main.MainActivity
@@ -19,11 +20,6 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
     override val viewModelClass: Class<LoginViewModel>
         get() = LoginViewModel::class.java
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        removeErrorsWhenEditing(viewDataBinding.mobileNumberLayout,viewDataBinding.passwordLayout)
-    }
-
     override fun setupObservers() {
         viewModel.loginLiveData.observe(this, Observer {
             when (it) {
@@ -34,6 +30,8 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
                     sharedPrefRepo.saveUser(it.data)
                     sharedPrefRepo.setLoggedIn(true)
                     sharedPrefRepo.setBearerToken(it.data!!.extensionAttributes.token)
+                    val password = viewDataBinding.password.text.toString().trim()
+                    sharedPrefRepo.savePassword(password)
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     finish()
                     loadingDialog.dismiss()
@@ -62,7 +60,9 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
         }
         viewDataBinding.createNew.setOnClickListener {
             startActivity(Intent(this@LoginActivity, SignupActivity::class.java))
-            finish()
+        }
+        viewDataBinding.forgetYourPassword.setOnClickListener {
+            startActivity(Intent(this@LoginActivity, PasswordActivity::class.java))
         }
     }
 
@@ -72,7 +72,7 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
             isDataOk = false
             viewDataBinding.mobileNumberLayout.error = getString(R.string.error_mobile_phone)
         }
-        if(viewDataBinding.mobileNumber.text.toString().length > 11 || viewDataBinding.mobileNumber.text.toString().length < 11){
+        if (viewDataBinding.mobileNumber.text.toString().length > 11 || viewDataBinding.mobileNumber.text.toString().length < 11) {
             isDataOk = false
             viewDataBinding.mobileNumberLayout.error = getString(R.string.error_mobile_phone)
         }
@@ -81,5 +81,10 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
             viewDataBinding.passwordLayout.error = getString(R.string.error_password)
         }
         return isDataOk
+    }
+
+    override fun initializeComponents() {
+        removeErrorsWhenEditing(viewDataBinding.mobileNumberLayout, viewDataBinding.passwordLayout)
+
     }
 }

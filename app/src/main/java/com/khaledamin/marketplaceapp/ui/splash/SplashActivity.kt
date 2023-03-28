@@ -41,4 +41,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         }, 7000)
     }
 
+    override fun initializeComponents() {
+
+    }
+
 }

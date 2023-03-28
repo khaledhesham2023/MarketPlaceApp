@@ -7,5 +7,6 @@ abstract class BaseRepo() {
 
     abstract val apiInterfaceClass:Class<Api>
 
+    abstract val sharedPrefRepo:SharedPrefRepo
 
 }

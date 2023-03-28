@@ -2,6 +2,7 @@ package com.khaledamin.marketplaceapp.model.responses
 
 import com.google.gson.annotations.SerializedName
 import com.khaledamin.marketplaceapp.model.DataElement
+import java.io.Serializable
 
 data class Catalog(
     @SerializedName("type")
@@ -10,4 +11,4 @@ data class Catalog(
     val title:String?,
     @SerializedName("data_elements")
     val dataElements:List<DataElement>?
-)
+): Serializable

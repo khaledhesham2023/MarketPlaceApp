@@ -33,6 +33,18 @@ class CategoriesTabAdapter(
         }
 
     }
+    fun setCategorySelected(categoriesList:ArrayList<GetCategoriesResponse>,catalogId:Long){
+        for (category in categoriesList){
+            if (category.id == catalogId){
+                category.isSelected = true
+                selectedCategory = category
+            } else {
+                category.isSelected = false
+            }
+        }
+        notifyDataSetChanged()
+        callback.onCategoryClicked(selectedCategory!!)
+    }
 
     override val layout: Int
         get() = R.layout.item_category2

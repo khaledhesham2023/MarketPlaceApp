@@ -23,19 +23,16 @@ class CategoryAdapter(
         get() = R.layout.item_category
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        Log.i("TAGG","onCreateViewHolder")
         return CategoryViewHolder(getItemViewBinding(parent))
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        Log.i("TAGG","onBindViewHolder")
         holder.binding.dataElement = data[position]
     }
 
     inner class CategoryViewHolder(val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-            Log.i("TAGG","INIT")
             binding.root.setOnClickListener {
                 callback.onCategoryClicked(data[layoutPosition])
             }

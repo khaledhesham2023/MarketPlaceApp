@@ -21,10 +21,7 @@ abstract class BaseFragmentWithViewModel<VB : ViewDataBinding, VM : ViewModel> :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
-        setupListeners()
     }
-
-    abstract fun setupListeners()
 
     abstract fun setupObservers()
 }

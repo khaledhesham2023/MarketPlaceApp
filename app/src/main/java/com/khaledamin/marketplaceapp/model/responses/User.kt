@@ -42,4 +42,13 @@ data class User(
     val extensionAttributes: ExtensionAttributes,
     @SerializedName("custom_attributes")
     val customAttributes: List<CustomAttribute>
-)
+){
+    fun getPhone():String{
+        var phone = ""
+        for(attribute in customAttributes){
+            if (attribute.key == "customer_mobile")
+                phone = attribute.value!!
+        }
+        return phone
+    }
+}

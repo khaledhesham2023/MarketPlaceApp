@@ -8,6 +8,8 @@ import android.content.Intent
 import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Menu
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
@@ -85,5 +87,28 @@ fun removeErrorsWhenEditing(vararg textInputLayouts: TextInputLayout) {
             override fun afterTextChanged(p0: Editable?) {
             }
         })
+    }
+}
+
+ fun setIconsVisible(optionMenu: Menu, vararg items: Int) {
+    for (item in items) {
+        optionMenu.findItem(item).isVisible = true
+    }
+
+}
+
+ fun setIconsGone(optionMenu: Menu, vararg items: Int) {
+    for (item in items) {
+        optionMenu.findItem(item).isVisible = false
+    }
+}
+ fun setVisibleViews(vararg views: View){
+    for(view in views){
+        view.visibility = View.VISIBLE
+    }
+}
+ fun setInvisibleViews(vararg views: View){
+    for(view in views){
+        view.visibility = View.GONE
     }
 }

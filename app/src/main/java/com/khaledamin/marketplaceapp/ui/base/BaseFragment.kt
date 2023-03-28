@@ -33,4 +33,11 @@ abstract class BaseFragment<VB : ViewDataBinding> : Fragment() {
 
         return viewDataBinding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupListeners()
+    }
+
+    abstract fun setupListeners()
 }

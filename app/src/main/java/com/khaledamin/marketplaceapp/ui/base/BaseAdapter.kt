@@ -15,12 +15,10 @@ abstract class BaseAdapter<T, VB:ViewDataBinding, VH : RecyclerView.ViewHolder>(
     abstract val layout:Int
 
     protected open fun getItemViewBinding(parent:ViewGroup):VB{
-        Log.i("TAGG","getItemViewBinding")
         return DataBindingUtil.inflate(LayoutInflater.from(parent.context),layout,parent,false)
     }
 
     open fun updateDataSet(data:List<T>){
-        Log.i("TAGG","updateDataSet")
         this.data = data
         notifyDataSetChanged()
     }

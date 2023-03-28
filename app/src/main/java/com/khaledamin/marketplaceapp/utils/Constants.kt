@@ -12,6 +12,7 @@ object Constants {
     const val NOTIFICATION_ID = 20
     const val CATEGORY_NAME = "Category name"
     const val PHONE_NUMBER_ENTRY = "PHONE_NUMBER"
+    const val USER_PASSWORD = "USER_PASSWORD"
 
 
 

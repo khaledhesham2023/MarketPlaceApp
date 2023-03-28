@@ -129,6 +129,10 @@ class SignupActivity : BaseActivityWithViewModel<ActivitySignupBinding, SignupVi
                 getString(R.string.error_password_mismatch),
                 Snackbar.LENGTH_LONG).show()
         }
+
         return isDataOk
+    }
+
+    override fun initializeComponents() {
     }
 }
