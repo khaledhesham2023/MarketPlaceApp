@@ -10,6 +10,8 @@ import com.khaledamin.marketplaceapp.databinding.FragmentOrdersBinding
 import com.khaledamin.marketplaceapp.model.responses.Order
 import com.khaledamin.marketplaceapp.ui.base.BaseFragmentWithViewModel
 import com.khaledamin.marketplaceapp.utils.ViewState
+import com.khaledamin.marketplaceapp.utils.setInvisibleViews
+import com.khaledamin.marketplaceapp.utils.setVisibleViews
 
 class OrdersFragment : BaseFragmentWithViewModel<FragmentOrdersBinding, OrdersViewModel>(),
     OrderCallback {
@@ -43,6 +45,13 @@ class OrdersFragment : BaseFragmentWithViewModel<FragmentOrdersBinding, OrdersVi
             viewDataBinding.currentOrdersBtn.isEnabled = true
             viewModel.getPreviousOrders(50, 1)
         }
+        viewDataBinding.emptyViewButton.setOnClickListener {
+            if (viewDataBinding.currentOrdersBtn.isEnabled) {
+                viewModel.getPreviousOrders(50, 1)
+            } else {
+                viewModel.getCurrentOrders(50, 1)
+            }
+        }
     }
 
     override fun setupObservers() {
@@ -50,12 +59,23 @@ class OrdersFragment : BaseFragmentWithViewModel<FragmentOrdersBinding, OrdersVi
             when (it) {
                 is ViewState.Loading -> loadingDialog.show()
                 is ViewState.Success -> {
-                    ordersList = it.data!!.items!!
-                    ordersAdapter.updateDataSet(ordersList)
+                    if (it.data!!.items!!.isEmpty()) {
+                        viewDataBinding.emptyViewMessage.text =
+                            getString(R.string.no_available_orders)
+                        setInvisibleViews(viewDataBinding.ordersList,viewDataBinding.emptyViewButton)
+                        setVisibleViews(viewDataBinding.emptyView)
+                    } else {
+                        setVisibleViews(viewDataBinding.ordersList)
+                        setInvisibleViews(viewDataBinding.emptyView)
+                        ordersList = it.data.items!!
+                        ordersAdapter.updateDataSet(ordersList)
+                    }
                     loadingDialog.dismiss()
                 }
                 is ViewState.Error -> {
-
+                    setVisibleViews(viewDataBinding.emptyView,viewDataBinding.emptyViewButton)
+                    viewDataBinding.emptyViewMessage.text = getString(R.string.error_loading_orders)
+                    setInvisibleViews(viewDataBinding.ordersList)
                 }
             }
         })
@@ -64,12 +84,23 @@ class OrdersFragment : BaseFragmentWithViewModel<FragmentOrdersBinding, OrdersVi
             when (it) {
                 is ViewState.Loading -> loadingDialog.show()
                 is ViewState.Success -> {
-                    ordersList = it.data!!.items!!
-                    ordersAdapter.updateDataSet(ordersList)
+                    if (it.data!!.items!!.isEmpty()) {
+                        setVisibleViews(viewDataBinding.emptyView)
+                        viewDataBinding.emptyViewMessage.text =
+                            getString(R.string.no_available_orders)
+                        setInvisibleViews(viewDataBinding.ordersList,viewDataBinding.emptyViewButton)
+                    } else {
+                        setVisibleViews(viewDataBinding.ordersList)
+                        setInvisibleViews(viewDataBinding.emptyView)
+                        ordersList = it.data.items!!
+                        ordersAdapter.updateDataSet(ordersList)
+                    }
                     loadingDialog.dismiss()
                 }
                 is ViewState.Error -> {
-
+                    setVisibleViews(viewDataBinding.emptyView,viewDataBinding.emptyViewButton)
+                    viewDataBinding.emptyViewMessage.text = getString(R.string.error_loading_orders)
+                    setInvisibleViews(viewDataBinding.ordersList)
                 }
             }
         })

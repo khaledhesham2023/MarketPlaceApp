@@ -102,4 +102,6 @@
     <string name="save">Save</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="profile_edit_success">Profile edited successfully</string>
+    <string name="error_loading_orders">Error during loading orders..Try again ??</string>
+    <string name="no_available_orders">No available orders</string>
 </resources>
