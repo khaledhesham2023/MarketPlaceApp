@@ -1,6 +1,7 @@
 package com.khaledamin.marketplaceapp.ui.authentication.login
 
 import android.content.Intent
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import androidx.lifecycle.Observer
@@ -20,6 +21,11 @@ class LoginActivity : BaseActivityWithViewModel<ActivityLoginBinding, LoginViewM
     override val viewModelClass: Class<LoginViewModel>
         get() = LoginViewModel::class.java
 
+    override fun onResume() {
+        super.onResume()
+        sharedPrefRepo.setVerified(false)
+
+    }
     override fun setupObservers() {
         viewModel.loginLiveData.observe(this, Observer {
             when (it) {

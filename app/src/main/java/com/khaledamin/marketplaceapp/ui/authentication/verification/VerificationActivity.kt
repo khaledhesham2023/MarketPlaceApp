@@ -22,12 +22,12 @@ import com.khaledamin.marketplaceapp.model.OTP
 import com.khaledamin.marketplaceapp.model.requests.SendOTPRequest
 import com.khaledamin.marketplaceapp.model.requests.VerifyRequest
 import com.khaledamin.marketplaceapp.ui.authentication.login.LoginActivity
+import com.khaledamin.marketplaceapp.ui.authentication.password.PasswordActivity
 import com.khaledamin.marketplaceapp.ui.authentication.signup.SignupActivity
 import com.khaledamin.marketplaceapp.ui.base.BaseActivityWithViewModel
 import com.khaledamin.marketplaceapp.utils.Constants
 import com.khaledamin.marketplaceapp.utils.ViewState
 import com.khaledamin.marketplaceapp.utils.createNotification
-
 class VerificationActivity :
     BaseActivityWithViewModel<ActivityVerificationBinding, VerificationViewModel>() {
     override val layout: Int
@@ -70,32 +70,15 @@ class VerificationActivity :
                         viewDataBinding.verifyButton.isEnabled = true
                     }
                 }
-
             }
         }
-
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val intentSignup: Intent = intent
-        numberEntry = sharedPrefRepo.getPhoneNumber()!!
-
-        viewDataBinding.firstNumber.addTextChangedListener(textWatcher)
-        viewDataBinding.secondNumber.addTextChangedListener(textWatcher)
-        viewDataBinding.thirdNumber.addTextChangedListener(textWatcher)
-        viewDataBinding.fourthNumber.addTextChangedListener(textWatcher)
-        viewDataBinding.customerPhone.text = getString(R.string.zero,sharedPrefRepo.getPhoneNumber())
-
-
-        showKeyboard(viewDataBinding.firstNumber)
+    override fun onResume() {
+        super.onResume()
         viewModel.sendOTP(SendOTPRequest("20", numberEntry))
-        Log.i("TAGG", numberEntry)
-        startCountDownTimer()
 
     }
-
     @RequiresApi(Build.VERSION_CODES.S)
     override fun setupObservers() {
         viewModel.sendOTPLiveData.observe(this, Observer {
@@ -123,7 +106,12 @@ class VerificationActivity :
             when(it){
                 is ViewState.Loading -> loadingDialog.show()
                 is ViewState.Success -> {
-                    viewModel.verifyCustomer(VerifyRequest(OTP(numberEntry,otpCode,"20",smsMessage)))
+                    sharedPrefRepo.setVerified(true)
+                    val intent = Intent(this@VerificationActivity,PasswordActivity::class.java)
+                    intent.putExtra("OTP",otpCode)
+                    intent.putExtra("sms",smsMessage)
+                    startActivity(intent)
+                    finish()
                     loadingDialog.dismiss()
                 }
                 is ViewState.Error -> {
@@ -132,32 +120,10 @@ class VerificationActivity :
                 }
             }
         })
-
-        viewModel.verifyCustomerLiveData.observe(this, Observer {
-            when(it){
-                is ViewState.Loading -> loadingDialog.show()
-                is ViewState.Success -> {
-                    loadingDialog.dismiss()
-                    Toast.makeText(this,
-                        getText(R.string.user_created_successfully),
-                        Toast.LENGTH_LONG).show()
-                    startActivity(Intent(this@VerificationActivity,LoginActivity::class.java))
-                    finish()
-                }
-                is ViewState.Error -> {
-                    Snackbar.make(this,
-                        viewDataBinding.root,
-                        getString(R.string.verify_customer_error),
-                        Snackbar.LENGTH_LONG).show()
-                    loadingDialog.dismiss()
-                }
-            }
-        })
     }
 
     override fun setupListeners() {
         viewDataBinding.backArrow.setOnClickListener {
-            startActivity(Intent(this@VerificationActivity, SignupActivity::class.java))
             finish()
         }
         viewDataBinding.resendCode.setOnClickListener {
@@ -226,6 +192,14 @@ class VerificationActivity :
     }
 
     override fun initializeComponents() {
+        numberEntry = sharedPrefRepo.getPhoneNumber()!!
 
+        viewDataBinding.firstNumber.addTextChangedListener(textWatcher)
+        viewDataBinding.secondNumber.addTextChangedListener(textWatcher)
+        viewDataBinding.thirdNumber.addTextChangedListener(textWatcher)
+        viewDataBinding.fourthNumber.addTextChangedListener(textWatcher)
+        viewDataBinding.customerPhone.text = getString(R.string.zero,numberEntry)
+        showKeyboard(viewDataBinding.firstNumber)
+        startCountDownTimer()
     }
 }

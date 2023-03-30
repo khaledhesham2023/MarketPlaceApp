@@ -37,13 +37,13 @@
                     android:layout_height="200dp"
                     android:background="#FAFAFA"
                     app:iss_auto_cycle="true"
-                    app:iss_placeholder="@drawable/marketplacelogo2"
-                    app:iss_period="2000"
                     app:iss_delay="0"
                     app:iss_error_image="@drawable/error"
+                    app:iss_period="2000"
+                    app:iss_placeholder="@drawable/marketplacelogo2"
                     app:iss_selected_dot="@drawable/product_indicator_selected"
-                    app:iss_unselected_dot="@drawable/product_indicator_unselected"
                     app:iss_title_background="@drawable/gradient"
+                    app:iss_unselected_dot="@drawable/product_indicator_unselected"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -52,29 +52,31 @@
                     android:id="@+id/product_brand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_marginStart="8dp"
-                    tools:text="Gillete"
+                    android:layout_marginTop="8dp"
                     android:text="@{productDetails.brand}"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/product_slider" />
+                    app:layout_constraintTop_toBottomOf="@id/product_slider"
+                    tools:text="Gillete" />
 
                 <TextView
                     android:id="@+id/product_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="8dp"
-                    android:maxWidth="200dp"
+                    android:maxWidth="150dp"
+                    android:textAlignment="center"
                     android:maxLines="2"
-                    tools:text="Gillete Fusion Brosh light 2 pcs"
+                    android:layout_marginStart="8dp"
                     android:text="@{productDetails.name}"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/rating_bar"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/product_brand" />
+                    app:layout_constraintTop_toBottomOf="@+id/product_brand"
+                    tools:text="Gillete Fusion Brosh light 2 pcs" />
 
                 <TextView
                     android:id="@+id/price"
@@ -83,9 +85,9 @@
                     android:layout_margin="8dp"
                     android:ellipsize="end"
                     android:maxWidth="150dp"
-                    android:maxLength="20"
+                    android:maxLength="15"
                     android:maxLines="1"
-                    android:text="@{String.valueOf(productDetails.price.regularPrice)}"
+                    android:text="@{String.valueOf(productDetails.price.regularPrice) + `L.E`}"
                     android:textColor="@color/app_red"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -94,15 +96,17 @@
                     app:layout_constraintTop_toBottomOf="@+id/product_name"
                     tools:text="16.99 L.E" />
 
-                <RatingBar
+                <androidx.appcompat.widget.AppCompatRatingBar
                     android:id="@+id/rating_bar"
-                    style="@style/Widget.AppCompat.RatingBar.Indicator"
                     android:layout_width="wrap_content"
+                    style="@style/Widget.AppCompat.RatingBar.Indicator"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/product_name"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/product_name"
-                    app:layout_constraintTop_toBottomOf="@+id/product_slider" />
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/product_name"
+                    app:layout_constraintTop_toTopOf="@+id/product_name" />
 
                 <ImageView
                     android:id="@+id/like_icon"
@@ -309,7 +313,7 @@
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/add_evaluation"
                         />
 

@@ -1,4 +1,4 @@
-package com.khaledamin.marketplaceapp.datasource.remote.Repo
+package com.khaledamin.marketplaceapp.datasource.remote.repo
 
 import android.app.Application
 import com.khaledamin.marketplaceapp.datasource.remote.api.Api

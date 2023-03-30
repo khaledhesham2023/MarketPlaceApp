@@ -1,6 +1,7 @@
 package com.khaledamin.marketplaceapp.ui.categoryproducts
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -26,6 +27,7 @@ class CategoryProductsFragment :
     private lateinit var categoriesTabAdapter: CategoriesTabAdapter
     private lateinit var subCategoriesAdapter: SubCategoriesAdapter
     private lateinit var productsAdapter: ProductsAdapter
+
     private var catalogId: Long? = null
     private lateinit var catalog: DataElement
     private lateinit var categoriesList: ArrayList<GetCategoriesResponse>
@@ -121,10 +123,11 @@ class CategoryProductsFragment :
         viewDataBinding.tabsList.smoothScrollToPosition(1)
         catalogId = category.id
         viewModel.getCategoryProducts(catalogId!!,50,1)
+        Log.i("catalog",catalogId.toString())
     }
 
     override fun onProductClicked(sku: String?) {
-        findNavController().navigate(CategoryProductsFragmentDirections.actionCategoryProductsFragmentToProductDetailsFragment(sku!!))
+        findNavController().navigate(CategoryProductsFragmentDirections.actionCategoryProductsFragmentToProductDetailsFragment(sku!!,catalogId!!))
     }
 
 

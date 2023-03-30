@@ -1,4 +1,4 @@
-package com.khaledamin.marketplaceapp.datasource.remote.Repo
+package com.khaledamin.marketplaceapp.datasource.remote.repo
 
 import android.content.Context
 import com.google.gson.Gson
@@ -33,6 +33,9 @@ class SharedPrefRepo(private val context: Context) {
 
     fun getPassword():String? = sharedPreferences.getString(Constants.USER_PASSWORD,"")
 
+    fun setVerified(isVerified:Boolean) = sharedPreferences.edit().putBoolean(Constants.IS_VERIFIED,isVerified).apply()
+
+    fun isVerified() = sharedPreferences.getBoolean(Constants.IS_VERIFIED,false)
 
 
 

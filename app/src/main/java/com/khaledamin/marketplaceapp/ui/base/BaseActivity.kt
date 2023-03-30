@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import com.khaledamin.marketplaceapp.datasource.remote.Repo.SharedPrefRepo
+import com.khaledamin.marketplaceapp.datasource.remote.repo.SharedPrefRepo
 
 abstract class BaseActivity<T: ViewDataBinding> : AppCompatActivity() {
 

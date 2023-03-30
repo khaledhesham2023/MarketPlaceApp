@@ -2,15 +2,13 @@ package com.khaledamin.marketplaceapp.ui.authentication.verification
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.khaledamin.marketplaceapp.datasource.remote.Repo.SharedPrefRepo
 import com.khaledamin.marketplaceapp.model.requests.SendOTPRequest
 import com.khaledamin.marketplaceapp.model.requests.VerifyRequest
 import com.khaledamin.marketplaceapp.model.responses.SendOTPResponse
 import com.khaledamin.marketplaceapp.model.responses.VerifyResponse
 import com.khaledamin.marketplaceapp.ui.base.BaseViewModel
 import com.khaledamin.marketplaceapp.utils.ViewState
-import kotlinx.coroutines.launch
+
 
 class VerificationViewModel(application: Application) : BaseViewModel(application) {
 
@@ -18,7 +16,6 @@ class VerificationViewModel(application: Application) : BaseViewModel(applicatio
 
     var verifyCodeLiveData = MutableLiveData<ViewState<VerifyResponse>>()
 
-    var verifyCustomerLiveData = MutableLiveData<ViewState<VerifyResponse>>()
 
 
     fun sendOTP(request: SendOTPRequest) =
@@ -28,9 +25,6 @@ class VerificationViewModel(application: Application) : BaseViewModel(applicatio
     fun verifyCode(request: VerifyRequest) =
         apiRequestManager.requestApi(repo.verifyCode(request), verifyCodeLiveData)
 
-
-    fun verifyCustomer(request: VerifyRequest) =
-        apiRequestManager.requestApi(repo.verifyCustomer(request), verifyCustomerLiveData)
 
 }
 

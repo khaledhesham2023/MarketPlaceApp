@@ -1,6 +1,5 @@
-package com.khaledamin.marketplaceapp.datasource.remote.Repo
+package com.khaledamin.marketplaceapp.datasource.remote.repo
 
-import android.content.Context
 import com.khaledamin.marketplaceapp.datasource.remote.api.Api
 
 abstract class BaseRepo() {

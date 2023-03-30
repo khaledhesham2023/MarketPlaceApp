@@ -1,12 +1,14 @@
 package com.khaledamin.marketplaceapp.ui.productdetails
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
+import com.google.android.material.snackbar.Snackbar
 import com.khaledamin.marketplaceapp.R
 import com.khaledamin.marketplaceapp.databinding.FragmentProductDetailsBinding
 import com.khaledamin.marketplaceapp.ui.base.BaseFragmentWithViewModel
@@ -21,19 +23,26 @@ class ProductDetailsFragment :
         get() = ProductsDetailsViewModel::class.java
 
     private var sku: String? = null
+    private var catalogId: Long? = null
     private lateinit var productsDetailsAdapter: ProductsDetailsAdapter
     private lateinit var productsAdapter: ProductsAdapter
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         sku = ProductDetailsFragmentArgs.fromBundle(requireArguments()).sku
+        catalogId = ProductDetailsFragmentArgs.fromBundle(requireArguments()).catalogId
         productsDetailsAdapter = ProductsDetailsAdapter(ArrayList())
-        productsAdapter = ProductsAdapter(ArrayList(),this)
+        productsAdapter = ProductsAdapter(ArrayList(), this)
         viewDataBinding.productFeaturesList.adapter = productsDetailsAdapter
         viewDataBinding.productFeaturesList.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        viewDataBinding.otherProductsList.adapter = productsAdapter
+        viewDataBinding.otherProductsList.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+
         viewModel.getProductDetails(sku)
+        viewModel.getCategoryProducts(catalogId!!, 50, 1)
     }
 
     override fun setupListeners() {
@@ -58,7 +67,28 @@ class ProductDetailsFragment :
 
                 }
                 is ViewState.Error -> {
-                    Toast.makeText(requireContext(),"Error during loading product features",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        "Error during loading product features",
+                        Toast.LENGTH_SHORT).show()
+                    loadingDialog.dismiss()
+                }
+            }
+        })
+
+        viewModel.categoryProductsLiveData.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is ViewState.Loading -> {
+                    loadingDialog.show()
+                }
+                is ViewState.Success -> {
+                    productsAdapter.updateDataSet(it.data!!.items)
+                    loadingDialog.dismiss()
+                }
+                is ViewState.Error -> {
+                    Snackbar.make(requireContext(),
+                        viewDataBinding.root,
+                        getString(R.string.error_loading_products),
+                        Snackbar.LENGTH_LONG).show()
                     loadingDialog.dismiss()
                 }
             }

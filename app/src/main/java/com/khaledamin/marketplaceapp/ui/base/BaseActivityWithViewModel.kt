@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.khaledamin.marketplaceapp.datasource.remote.Repo.SharedPrefRepo
 import com.khaledamin.marketplaceapp.ui.loading.LoadingDialog
 
 abstract class BaseActivityWithViewModel<VB : ViewDataBinding, VM : ViewModel> :

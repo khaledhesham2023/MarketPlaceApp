@@ -13,6 +13,7 @@ object Constants {
     const val CATEGORY_NAME = "Category name"
     const val PHONE_NUMBER_ENTRY = "PHONE_NUMBER"
     const val USER_PASSWORD = "USER_PASSWORD"
+    const val IS_VERIFIED = "IS_VERIFIED"
 
 
 
